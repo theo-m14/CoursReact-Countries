@@ -4,6 +4,7 @@ import Card from "./Card";
 
 const Countries = () => {
   const [data, setData] = useState([]);
+  const [rangeValue, setRange] = useState(36);
 
   // le useEffect se joue quand le composant est monté
   useEffect(() => {
@@ -14,9 +15,17 @@ const Countries = () => {
 
   return (
     <div className="countries">
-      <h1>Countries</h1>
+      <ul className="radio-container">
+        <input
+          type="range"
+          min={1}
+          max={250}
+          defaultValue={rangeValue}
+          onChange={(e) => setRange(e.target.value)}
+        />
+      </ul>
       <ul>
-        {data.map((country, index) => (
+        {data.slice(0, rangeValue).map((country, index) => (
           <Card key={index} country={country} />
         ))}
       </ul>
