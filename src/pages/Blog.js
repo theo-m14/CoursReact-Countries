@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import Article from "../components/Article";
 import Logo from "../components/Logo";
 import Navigation from "../components/Navigation";
 
 const Blog = () => {
   const [content, setContent] = useState("");
   const [error, setError] = useState(false);
+  const [article, setArticle] = useState([]);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (content.length < 140) {
@@ -13,6 +16,16 @@ const Blog = () => {
       setError(false);
     }
   };
+
+  const getData = () => {
+    axios
+      .get("http://localhost:3004/articles")
+      .then((res) => setArticle(res.data));
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <div className="blog-container">
@@ -29,6 +42,13 @@ const Blog = () => {
         {error && <p>Veuillez écrire un minimum de 140 caractères</p>}
         <input type="submit" value="Envoyer" />
       </form>
+      <ul>
+        {article
+          .sort((a, b) => b.id - a.id)
+          .map((article) => (
+            <Article key={article.id} article={article} />
+          ))}
+      </ul>
     </div>
   );
 };
