@@ -9,6 +9,7 @@ const Blog = () => {
   const [author, setAuthor] = useState("");
   const [error, setError] = useState(false);
   const [article, setArticle] = useState([]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (content.length < 140) {
